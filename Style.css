@@ -1,0 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #050b14;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    background: #08111f;
+    border-bottom: 1px solid #00ffcc;
+}
+
+.logo {
+    color: #00ffcc;
+    font-size: 28px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: #00ffcc;
+}
+
+.hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    background: linear-gradient(135deg, #050b14, #071c26);
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.small-text {
+    color: #00ffcc;
+    font-size: 20px;
+}
+
+.hero h1 {
+    font-size: 70px;
+    margin: 10px 0;
+}
+
+.hero h2 {
+    color: #00ffcc;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    line-height: 1.7;
+    color: #b7c3ce;
+}
+
+.hero-buttons {
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 13px 25px;
+    margin-right: 10px;
+    background: #00ffcc;
+    color: #050b14;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #00ffcc;
+    border: 1px solid #00ffcc;
+}
+
+.section {
+    padding: 90px 10%;
+}
+
+.section-title {
+    text-align: center;
+    color: #00ffcc;
+    font-size: 36px;
+    margin-bottom: 45px;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    line-height: 1.8;
+    color: #b7c3ce;
+}
+
+.skills-container,
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.skill-card,
+.project-card,
+.certificate-card {
+    background: #08111f;
+    padding: 30px;
+    border: 1px solid #153247;
+    border-radius: 10px;
+}
+
+.skill-card h3,
+.project-card h3,
+.certificate-card h3 {
+    color: #00ffcc;
+    margin-bottom: 15px;
+}
+
+.skill-card p,
+.project-card p,
+.certificate-card p {
+    color: #b7c3ce;
+    line-height: 1.6;
+}
+
+.project-btn {
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.certificate-card {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+.contact-box {
+    text-align: center;
+}
+
+.contact-box p {
+    color: #b7c3ce;
+    margin-bottom: 30px;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #08111f;
+    color: #7f8c96;
+}
+
+#typing-text {
+    color: #00ffcc;
+    text-shadow:
+        0 0 5px #00ffcc,
+        0 0 10px #00ffcc,
+        0 0 20px #00ffcc;
+}
+
+.hero h1 {
+    text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+}
+.hero {
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.hero-image img {
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    object-position: center 25%;
+    border-radius: 50%;
+    border: 4px solid #00ffcc;
+    box-shadow:
+        0 0 20px #00ffcc,
+        0 0 50px rgba(0, 255, 204, 0.4);
+}
+
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .hero-image img {
+        width: 230px;
+        height: 230px;
+    }
+}
+
+
+.social-links {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.social-links a {
+    color: #00ffcc;
+    text-decoration: none;
+    border: 1px solid #00ffcc;
+    padding: 10px 16px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.social-links a:hover {
+    background: #00ffcc;
+    color: #050b14;
+    box-shadow: 0 0 15px #00ffcc;
+}
+
+.project-tech {
+    margin-top: 15px;
+    color: #00ffcc !important;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    background: #08111f;
+    color: white;
+    border: 1px solid #153247;
+    border-radius: 7px;
+    outline: none;
+    font-size: 16px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #00ffcc;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form button {
+    border: none;
+    cursor: pointer;
+}
