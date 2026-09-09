@@ -108,7 +108,7 @@
 
     const words = text
         .toLowerCase()
-        .match(/\b[a-z']+\b/g) || [];
+        .match(/[a-z]+/g) || [];
 
     if (sentences.length === 0 || words.length === 0) {
         result.textContent = "Result: Unable to Analyze";
@@ -153,7 +153,7 @@
             "The writing shows more variation in this basic analysis. This does not prove that it was written by a human.";
     }
 }
-function checkPassword() {
+    function checkPassword() {
 
     const password = document.getElementById("password").value;
     const result = document.getElementById("result");
