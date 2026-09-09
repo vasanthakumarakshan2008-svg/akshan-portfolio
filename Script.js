@@ -28,13 +28,6 @@ sections.forEach(section => {
     observer.observe(section);
 });
 
-// Project button interaction
-document.querySelectorAll(".project-btn").forEach(button => {
-    button.addEventListener("click", () => {
-        alert("Project details coming soon!");
-    });
-});
-
 const text = "Cyber Security Student";
 const typingText = document.getElementById("typing-text");
 
