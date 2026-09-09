@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Password Strength Checker | Akshan</title>
+
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+<section class="cyber-project-page">
+
+    <h2 class="section-title">Password Strength Checker</h2>
+
+    <div class="project-card">
+
+        <h3>Cyber Security Tool</h3>
+
+        <p>
+            Enter a password below to check its strength.
+            The password is checked only inside your browser.
+        </p>
+
+        <br>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter a test password"
+            autocomplete="new-password"
+        >
+
+        <button
+            type="button"
+            class="btn"
+            onclick="checkPassword()">
+            Check Strength
+        </button>
+
+        <br><br>
+
+        <h3 id="result">Strength: Not Checked</h3>
+
+        <p id="feedback">
+            Use a test password rather than a real account password.
+        </p>
+
+        <br>
+
+        <a href="index.html" class="btn">
+            ← Back to Portfolio
+        </a>
+
+    </div>
+
+</section>
+
+<script>
+function checkPassword() {
+
+    const password = document.getElementById("password").value;
+    const result = document.getElementById("result");
+    const feedback = document.getElementById("feedback");
+
+    let score = 0;
+    let tips = [];
+
+    if (password.length >= 12) {
+        score++;
+    } else {
+        tips.push("Use at least 12 characters.");
+    }
+
+    if (/[A-Z]/.test(password)) {
+        score++;
+    } else {
+        tips.push("Add an uppercase letter.");
+    }
+
+    if (/[a-z]/.test(password)) {
+        score++;
+    } else {
+        tips.push("Add a lowercase letter.");
+    }
+
+    if (/[0-9]/.test(password)) {
+        score++;
+    } else {
+        tips.push("Add a number.");
+    }
+
+    if (/[^A-Za-z0-9]/.test(password)) {
+        score++;
+    } else {
+        tips.push("Add a special character.");
+    }
+
+    if (password.length === 0) {
+        result.textContent = "Strength: Not Checked";
+        feedback.textContent = "Enter a test password first.";
+        return;
+    }
+
+    if (score <= 2) {
+        result.textContent = "Strength: Weak";
+    } else if (score <= 4) {
+        result.textContent = "Strength: Medium";
+    } else {
+        result.textContent = "Strength: Strong";
+    }
+
+    if (tips.length > 0) {
+        feedback.textContent = tips.join(" ");
+    } else {
+        feedback.textContent =
+            "Good: this password meets all of the checks used by this demo.";
+    }
+}
+</script>
+
+</body>
+</html>
