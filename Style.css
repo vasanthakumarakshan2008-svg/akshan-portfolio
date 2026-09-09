@@ -281,3 +281,57 @@ footer {
     border: none;
     cursor: pointer;
 }
+
+/* Password Strength Checker */
+
+.cyber-project-page {
+    min-height: 100vh;
+    padding: 70px 10%;
+    background: #050b14;
+}
+
+.cyber-project-page .project-card {
+    max-width: 850px;
+    margin: auto;
+    padding: 40px;
+    border: 1px solid #00ffcc;
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.12);
+}
+
+.cyber-project-page input[type="password"] {
+    width: 100%;
+    padding: 16px;
+    margin: 20px 0;
+    background: #050b14;
+    color: white;
+    border: 1px solid #153247;
+    border-radius: 7px;
+    font-size: 16px;
+    outline: none;
+}
+
+.cyber-project-page input[type="password"]:focus {
+    border-color: #00ffcc;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.3);
+}
+
+.cyber-project-page #result {
+    margin-top: 10px;
+    color: #00ffcc;
+}
+
+.cyber-project-page #feedback {
+    margin-top: 12px;
+    line-height: 1.8;
+}
+
+.cyber-project-page .btn {
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cyber-project-page .btn:hover {
+    box-shadow: 0 0 18px #00ffcc;
+    transform: translateY(-2px);
+}
