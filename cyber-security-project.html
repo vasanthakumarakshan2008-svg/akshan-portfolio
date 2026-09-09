@@ -90,6 +90,69 @@
 </section>
 
 <script>
+    function analyzeText() {
+    const text = document.getElementById("aiText").value.trim();
+    const result = document.getElementById("aiResult");
+    const feedback = document.getElementById("aiFeedback");
+
+    if (text.length < 50) {
+        result.textContent = "Result: Not Enough Text";
+        feedback.textContent =
+            "Please enter at least 50 characters for a basic analysis.";
+        return;
+    }
+
+    const sentences = text
+        .split(/[.!?]+/)
+        .filter(sentence => sentence.trim().length > 0);
+
+    const words = text
+        .toLowerCase()
+        .match(/\b[a-z']+\b/g) || [];
+
+    if (sentences.length === 0 || words.length === 0) {
+        result.textContent = "Result: Unable to Analyze";
+        feedback.textContent = "Please enter normal paragraph text.";
+        return;
+    }
+
+    const uniqueWords = new Set(words);
+    const vocabularyRatio = uniqueWords.size / words.length;
+
+    const lengths = sentences.map(sentence =>
+        sentence.trim().split(/\s+/).length
+    );
+
+    const average =
+        lengths.reduce((total, length) => total + length, 0) /
+        lengths.length;
+
+    const variation =
+        lengths.reduce(
+            (total, length) => total + Math.abs(length - average),
+            0
+        ) / lengths.length;
+
+    let aiSignals = 0;
+
+    if (variation < 4) aiSignals++;
+    if (vocabularyRatio < 0.55) aiSignals++;
+    if (average > 18) aiSignals++;
+
+    if (aiSignals >= 2) {
+        result.textContent = "Result: More AI-like Patterns";
+        feedback.textContent =
+            "The writing shows some regular or repetitive patterns often associated with generated text. This is only an estimate and is not proof of AI authorship.";
+    } else if (aiSignals === 1) {
+        result.textContent = "Result: Mixed / Uncertain";
+        feedback.textContent =
+            "The writing contains a mixture of patterns. It cannot be reliably classified as AI-written or human-written.";
+    } else {
+        result.textContent = "Result: More Human-like Patterns";
+        feedback.textContent =
+            "The writing shows more variation in this basic analysis. This does not prove that it was written by a human.";
+    }
+}
 function checkPassword() {
 
     const password = document.getElementById("password").value;
