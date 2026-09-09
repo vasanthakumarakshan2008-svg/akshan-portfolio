@@ -335,3 +335,38 @@ footer {
     box-shadow: 0 0 18px #00ffcc;
     transform: translateY(-2px);
 }
+/* Cyber Security Password Tool - Final Design */
+
+.cyber-project-page {
+    min-height: 100vh;
+    padding: 70px 8%;
+}
+
+.cyber-project-page .project-card {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+#password {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    margin: 20px 0;
+    background: #08111f;
+    color: white;
+    border: 1px solid #00ffcc;
+    border-radius: 8px;
+    font-size: 17px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#password:focus {
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+}
+
+#result {
+    margin-top: 25px;
+    color: #00ffcc;
+}
