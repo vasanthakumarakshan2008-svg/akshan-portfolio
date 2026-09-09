@@ -50,7 +50,37 @@
         </p>
 
         <br>
+<hr class="tool-divider">
 
+<h3>AI Text Checker</h3>
+
+<p>
+    Paste text below to analyse writing patterns that may appear
+    more human-like or AI-like.
+</p>
+
+<textarea
+    id="aiText"
+    rows="8"
+    placeholder="Paste text here..."
+></textarea>
+
+<br><br>
+
+<button type="button" class="btn" onclick="analyzeText()">
+    Analyze Text
+</button>
+
+<br><br>
+
+<h3 id="aiResult">Result: Not Analyzed</h3>
+
+<p id="aiFeedback">
+    This tool provides an estimate based on simple writing patterns.
+    It cannot prove whether text was written by AI or a human.
+</p>
+
+<br><br>
         <a href="index.html" class="btn">
             ← Back to Portfolio
         </a>
