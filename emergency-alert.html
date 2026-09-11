@@ -36,10 +36,125 @@
             </p>
 
             <br>
+<hr>
 
+<h3>Campus Emergency Alert System</h3>
+
+<p>
+    Create a demo emergency alert for campus safety.
+</p>
+
+<p>
+    <strong>Demo Only:</strong>
+    This system does not contact police, ambulance,
+    fire services or other real emergency services.
+</p>
+
+<label for="emergencyType">Emergency Type:</label>
+<br>
+
+<select id="emergencyType">
+    <option value="">Select Emergency</option>
+    <option value="Medical Emergency">Medical Emergency</option>
+    <option value="Fire">Fire</option>
+    <option value="Accident">Accident</option>
+    <option value="Security Incident">Security Incident</option>
+    <option value="Flood / Weather">Flood / Weather</option>
+    <option value="Other Emergency">Other Emergency</option>
+</select>
+
+<br><br>
+
+<label for="emergencyLocation">Campus Location:</label>
+<br>
+
+<input
+    type="text"
+    id="emergencyLocation"
+    placeholder="Example: Computer Lab"
+>
+
+<br><br>
+
+<label for="emergencyMessage">Emergency Message:</label>
+<br>
+
+<textarea
+    id="emergencyMessage"
+    rows="5"
+    placeholder="Briefly describe the emergency..."
+></textarea>
+
+<br><br>
+
+<button
+    type="button"
+    class="btn"
+    onclick="createEmergencyAlert()"
+>
+    Create Emergency Alert
+</button>
+
+<br><br>
+
+<h3>Latest Alert</h3>
+
+<div id="emergencyResult">
+    No emergency alert created.
+</div>
+
+<br>
+
+<h3>Recent Alert History</h3>
+
+<div id="alertHistory">
+    No alerts yet.
+</div>
+
+<br><br>
             <a href="index.html" class="btn">← Back to Portfolio</a>
         </div>
     </section>
+<script>
+function createEmergencyAlert() {
+    const type = document.getElementById("emergencyType").value;
+    const location = document.getElementById("emergencyLocation").value.trim();
+    const message = document.getElementById("emergencyMessage").value.trim();
 
+    const result = document.getElementById("emergencyResult");
+    const history = document.getElementById("alertHistory");
+
+    if (type === "" || location === "" || message === "") {
+        result.innerHTML =
+            "<strong>Please complete all fields before creating an alert.</strong>";
+        return;
+    }
+
+    const now = new Date();
+
+    const timeText = now.toLocaleString();
+
+    const alertHTML = `
+        <div class="emergency-alert-card">
+            <strong>${type}</strong><br>
+            Location: ${location}<br>
+            Message: ${message}<br>
+            Time: ${timeText}
+        </div>
+    `;
+
+    result.innerHTML = alertHTML;
+
+    if (history.textContent.trim() === "No alerts yet.") {
+        history.innerHTML = "";
+    }
+
+    history.innerHTML = alertHTML + history.innerHTML;
+
+    document.getElementById("emergencyType").value = "";
+    document.getElementById("emergencyLocation").value = "";
+    document.getElementById("emergencyMessage").value = "";
+}
+</script>
 </body>
 </html>
