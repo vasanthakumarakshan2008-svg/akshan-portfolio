@@ -61,9 +61,15 @@
 
 <textarea
     id="aiText"
-    rows="8"
-    placeholder="Paste text here..."
+    rows="12"
+    maxlength="100000"
+    placeholder="Paste text here... (Maximum 15,000 words)"
+    oninput="updateTextCount()"
 ></textarea>
+
+<p id="textCount">
+    Words: 0 / 15,000 | Characters: 0 / 100,000
+</p>
 
 <br><br>
 
@@ -81,6 +87,71 @@
 </p>
 
 <br><br>
+
+<hr class="tool-divider">
+
+<h3>Social Media Security Checker</h3>
+
+<p>
+    Check your basic social media account security habits.
+    This tool does not access accounts or collect passwords.
+</p>
+
+<input
+    type="text"
+    id="socialUsername"
+    placeholder="Enter username (optional)"
+>
+
+<br><br>
+
+<label>
+    <input type="checkbox" id="check2fa">
+    I use Two-Factor Authentication (2FA)
+</label>
+
+<br><br>
+
+<label>
+    <input type="checkbox" id="checkUniquePassword">
+    I use a unique password for this account
+</label>
+
+<br><br>
+
+<label>
+    <input type="checkbox" id="checkLinks">
+    I avoid suspicious links and fake login pages
+</label>
+
+<br><br>
+
+<label>
+    <input type="checkbox" id="checkRecovery">
+    My recovery email/phone is updated
+</label>
+
+<br><br>
+
+<button
+    type="button"
+    class="btn"
+    onclick="checkSocialSecurity()"
+>
+    Check Security
+</button>
+
+<br><br>
+
+<h3 id="socialResult">
+    Security Risk: Not Checked
+</h3>
+
+<p id="socialFeedback">
+    Complete the checklist and click Check Security.
+</p>
+
+<br><br>
         <a href="index.html" class="btn">
             ← Back to Portfolio
         </a>
@@ -90,68 +161,134 @@
 </section>
 
 <script>
-    function analyzeText() {
+   function analyzeText() {
     const text = document.getElementById("aiText").value.trim();
     const result = document.getElementById("aiResult");
     const feedback = document.getElementById("aiFeedback");
 
+    const words = text.match(/\b[\w'-]+\b/g) || [];
+    const wordCount = words.length;
+    const charCount = text.length;
+
+    if (wordCount > 15000) {
+        result.textContent = "Result: Text Too Long";
+        feedback.textContent =
+            "Please reduce the text to 15,000 words or less.";
+        return;
+    }
+
     if (text.length < 50) {
         result.textContent = "Result: Not Enough Text";
         feedback.textContent =
-            "Please enter at least 50 characters for a basic analysis.";
+            "Please enter at least 50 characters for a more useful analysis.";
         return;
     }
 
     const sentences = text
         .split(/[.!?]+/)
-        .filter(sentence => sentence.trim().length > 0);
+        .map(sentence => sentence.trim())
+        .filter(Boolean);
 
-    const words = text
-        .toLowerCase()
-        .match(/[a-z]+/g) || [];
-
-    if (sentences.length === 0 || words.length === 0) {
+    if (sentences.length === 0) {
         result.textContent = "Result: Unable to Analyze";
-        feedback.textContent = "Please enter normal paragraph text.";
+        feedback.textContent =
+            "Please enter normal paragraph text with complete sentences.";
         return;
     }
 
-    const uniqueWords = new Set(words);
-    const vocabularyRatio = uniqueWords.size / words.length;
+    const lowerWords = words.map(word => word.toLowerCase());
+    const uniqueWords = new Set(lowerWords);
 
-    const lengths = sentences.map(sentence =>
-        sentence.trim().split(/\s+/).length
+    const vocabularyRatio =
+        uniqueWords.size / Math.max(lowerWords.length, 1);
+
+    const sentenceLengths = sentences.map(sentence =>
+        (sentence.match(/\b[\w'-]+\b/g) || []).length
     );
 
-    const average =
-        lengths.reduce((total, length) => total + length, 0) /
-        lengths.length;
+    const averageSentenceLength =
+        sentenceLengths.reduce((a, b) => a + b, 0) /
+        sentenceLengths.length;
 
-    const variation =
-        lengths.reduce(
-            (total, length) => total + Math.abs(length - average),
+    const sentenceVariation =
+        sentenceLengths.reduce(
+            (total, length) =>
+                total + Math.abs(length - averageSentenceLength),
             0
-        ) / lengths.length;
+        ) / sentenceLengths.length;
+
+    const frequency = {};
+    lowerWords.forEach(word => {
+        frequency[word] = (frequency[word] || 0) + 1;
+    });
+
+    const repeatedWords = Object.values(frequency)
+        .filter(count => count >= 4)
+        .length;
+
+    const longSentenceCount = sentenceLengths
+        .filter(length => length >= 25)
+        .length;
 
     let aiSignals = 0;
+    let humanSignals = 0;
 
-    if (variation < 4) aiSignals++;
-    if (vocabularyRatio < 0.55) aiSignals++;
-    if (average > 18) aiSignals++;
-
-    if (aiSignals >= 2) {
-        result.textContent = "Result: More AI-like Patterns";
-        feedback.textContent =
-            "The writing shows some regular or repetitive patterns often associated with generated text. This is only an estimate and is not proof of AI authorship.";
-    } else if (aiSignals === 1) {
-        result.textContent = "Result: Mixed / Uncertain";
-        feedback.textContent =
-            "The writing contains a mixture of patterns. It cannot be reliably classified as AI-written or human-written.";
+    if (sentenceVariation < 4) {
+        aiSignals++;
     } else {
-        result.textContent = "Result: More Human-like Patterns";
-        feedback.textContent =
-            "The writing shows more variation in this basic analysis. This does not prove that it was written by a human.";
+        humanSignals++;
     }
+
+    if (vocabularyRatio < 0.45) {
+        aiSignals++;
+    } else {
+        humanSignals++;
+    }
+
+    if (repeatedWords > Math.max(3, wordCount * 0.02)) {
+        aiSignals++;
+    } else {
+        humanSignals++;
+    }
+
+    if (averageSentenceLength >= 18 && sentenceVariation < 5) {
+        aiSignals++;
+    } else {
+        humanSignals++;
+    }
+
+    if (longSentenceCount > sentences.length * 0.6) {
+        aiSignals++;
+    }
+
+    let finalResult;
+
+    if (aiSignals >= 4) {
+        finalResult = "More AI-like Patterns";
+    } else if (aiSignals >= 2) {
+        finalResult = "Mixed / Uncertain";
+    } else {
+        finalResult = "More Human-like Patterns";
+    }
+
+    result.textContent = `Result: ${finalResult}`;
+
+    feedback.innerHTML = `
+        <strong>Analysis Details</strong><br><br>
+
+        Words: ${wordCount.toLocaleString()}<br>
+        Characters: ${charCount.toLocaleString()}<br>
+        Sentences: ${sentences.length.toLocaleString()}<br>
+        Unique Words: ${uniqueWords.size.toLocaleString()}<br>
+        Vocabulary Diversity: ${(vocabularyRatio * 100).toFixed(1)}%<br>
+        Average Sentence Length: ${averageSentenceLength.toFixed(1)} words<br>
+        Sentence Variation: ${sentenceVariation.toFixed(1)}<br>
+        Repeated Word Signals: ${repeatedWords}<br><br>
+
+        <strong>Important:</strong>
+        This tool only analyses writing patterns.
+        It cannot prove whether text was written by AI or a human.
+    `;
 }
     function checkPassword() {
 
@@ -211,6 +348,93 @@
     } else {
         feedback.textContent =
             "Good: this password meets all of the checks used by this demo.";
+    }
+}function updateTextCount() {
+    const textArea = document.getElementById("aiText");
+    const counter = document.getElementById("textCount");
+
+    const text = textArea.value;
+
+    const words = text.trim() === ""
+        ? []
+        : text.trim().split(/\s+/);
+
+    const wordCount = words.length;
+    const charCount = text.length;
+
+    counter.textContent =
+        `Words: ${wordCount.toLocaleString()} / 15,000 | ` +
+        `Characters: ${charCount.toLocaleString()} / 100,000`;
+
+    if (wordCount > 15000) {
+        counter.textContent += " — Word limit exceeded!";
+    }
+}
+function checkSocialSecurity() {
+    const username = document.getElementById("socialUsername").value.trim();
+
+    const has2FA = document.getElementById("check2fa").checked;
+    const uniquePassword =
+        document.getElementById("checkUniquePassword").checked;
+    const avoidsLinks =
+        document.getElementById("checkLinks").checked;
+    const recoveryUpdated =
+        document.getElementById("checkRecovery").checked;
+
+    const result = document.getElementById("socialResult");
+    const feedback = document.getElementById("socialFeedback");
+
+    let score = 0;
+    let recommendations = [];
+
+    if (has2FA) {
+        score++;
+    } else {
+        recommendations.push("Enable Two-Factor Authentication (2FA).");
+    }
+
+    if (uniquePassword) {
+        score++;
+    } else {
+        recommendations.push("Use a unique password for this account.");
+    }
+
+    if (avoidsLinks) {
+        score++;
+    } else {
+        recommendations.push("Avoid suspicious links and fake login pages.");
+    }
+
+    if (recoveryUpdated) {
+        score++;
+    } else {
+        recommendations.push("Keep your recovery email or phone updated.");
+    }
+
+    let risk;
+
+    if (score === 4) {
+        risk = "Low Risk";
+    } else if (score >= 2) {
+        risk = "Medium Risk";
+    } else {
+        risk = "High Risk";
+    }
+
+    result.textContent = "Security Risk: " + risk;
+
+    const account =
+        username !== "" ? "Account: @" + username + ". " : "";
+
+    if (recommendations.length === 0) {
+        feedback.textContent =
+            account +
+            "Good security habits selected. Continue watching for phishing and suspicious login attempts.";
+    } else {
+        feedback.textContent =
+            account +
+            "Recommendations: " +
+            recommendations.join(" ");
     }
 }
 </script>
